@@ -2,12 +2,12 @@
 const PASSWORD = "HundeQuiz2026";
 
 // Globale Variablen
-let breeds = [];         // Liste aller Hunderassen (Abkürzungen)
-let breedImages = {};    // Wird aus der JSON geladen
-let currentBreed = "";   // Aktuelle Rasse im Quiz
-let score = 0;           // Punktestand
-let wrongAnswers = [];   // Liste der falsch beantworteten Rassen
-let currentIndex = 0;    // Aktueller Index im Quiz
+let breeds = [];          // Liste aller Hunderassen (Abkürzungen)
+let breedImages = {};     // Wird aus der JSON geladen
+let currentBreed = "";    // Aktuelle Rasse im Quiz
+let score = 0;            // Punktestand
+let wrongAnswers = [];    // Liste der falsch beantworteten Rassen
+let currentIndex = 0;     // Aktueller Index im Quiz
 
 // Passwort prüfen
 function checkPassword() {
@@ -22,10 +22,14 @@ function checkPassword() {
 // JSON-Datei laden und Quiz initialisieren
 function loadBreedImages() {
     fetch('breed_images.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("JSON nicht gefunden!");
+            return response.json();
+        })
         .then(data => {
             breedImages = data;
             breeds = Object.keys(breedImages); // Alle Rassen aus der JSON extrahieren
+            console.log("Verfügbare Rassen:", breeds); // Debug
             shuffleArray(breeds); // Zufällige Reihenfolge
             loadNextDog(); // Erster Hund laden
         })
@@ -40,15 +44,18 @@ function shuffleArray(array) {
     }
 }
 
-// Zufälliges Bild für die aktuelle Rasse auswählen
+// Zufälliges Bild aus der JSON für die aktuelle Rasse auswählen
 function getRandomImageForBreed(breed) {
     const images = breedImages[breed];
     if (!images || images.length === 0) {
         console.error(`Keine Bilder für Rasse ${breed} gefunden!`);
         return "";
     }
+    // Zufälliges Bild aus der Liste der tatsächlichen Dateinamen auswählen
     const randomImage = images[Math.floor(Math.random() * images.length)];
-    return `Hunde/${breed}/${randomImage}`;
+    const imgPath = `Hunde/${breed}/${randomImage}`;
+    console.log("Versuche, Bild zu laden:", imgPath); // Debug
+    return imgPath;
 }
 
 // Nächsten Hund laden
@@ -56,7 +63,6 @@ function loadNextDog() {
     if (currentIndex < breeds.length) {
         currentBreed = breeds[currentIndex];
         const imgPath = getRandomImageForBreed(currentBreed);
-        console.log("Versuche, Bild zu laden:", imgPath); // Debug-Ausgabe
         document.getElementById("dog-image").src = imgPath;
         document.getElementById("answer").value = "";
         document.getElementById("answer").focus();
