@@ -1,0 +1,68 @@
+/* Wald-Farben */
+:root {
+    --forest-green: #2a5c2a;
+    --forest-brown: #8b4513;
+    --light-green: #aad27c;
+    --beige: #f5f5dc;
+}
+
+body.forest-theme {
+    background-color: var(--forest-green);
+    color: var(--beige);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.quiz-container {
+    max-width: 100%;
+    text-align: center;
+    padding: 20px;
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid var(--forest-brown);
+    border-radius: 5px;
+}
+
+/* Fortschrittsbalken */
+.progress-container {
+    width: 100%;
+    background-color: var(--forest-brown);
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: var(--light-green);
+    width: 0%;
+    transition: width 0.3s;
+}
+
+/* Feedback */
+.feedback {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.feedback.correct {
+    background-color: var(--light-green);
+}
+
+.feedback.wrong {
+    background-color: #ff6b6b;
+}
+
+/* Mobile-Anpassungen */
+@media (max-width: 600px) {
+    .responsive-image {
+        width: 100%;
+    }
+    input, button {
+        width: 100%;
+        padding: 10px;
+    }
+}
