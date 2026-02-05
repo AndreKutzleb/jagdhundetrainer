@@ -2,12 +2,13 @@
 const PASSWORD = "HundeQuiz2026";
 
 // Globale Variablen
-let breeds = [];          // Liste aller Hunderassen (Abkürzungen)
-let breedImages = {};     // Wird aus der JSON geladen
-let currentBreed = "";    // Aktuelle Rasse im Quiz
-let score = 0;            // Punktestand
-let wrongAnswers = [];    // Liste der falsch beantworteten Rassen
-let currentIndex = 0;     // Aktueller Index im Quiz
+let breeds = [];
+let breedImages = {};
+let currentBreed = "";
+let score = 0;
+let wrongAnswers = [];
+let currentIndex = 0;
+let answerSubmitted = false; // Flag, um zu prüfen, ob die Antwort bereits abgegeben wurde
 
 // Passwort prüfen
 function checkPassword() {
@@ -28,15 +29,27 @@ function loadBreedImages() {
         })
         .then(data => {
             breedImages = data;
-            breeds = Object.keys(breedImages); // Alle Rassen aus der JSON extrahieren
-            console.log("Verfügbare Rassen:", breeds); // Debug
-            shuffleArray(breeds); // Zufällige Reihenfolge
-            loadNextDog(); // Erster Hund laden
+            breeds = Object.keys(breedImages);
+            shuffleArray(breeds);
+            loadNextDog();
+            // Enter-Taste aktivieren
+            document.getElementById("answer").addEventListener("keypress", handleKeyPress);
         })
-        .catch(error => console.error('Fehler beim Laden der JSON:', error));
+        .catch(error => console.error('Fehler:', error));
 }
 
-// Array mischen (für Zufallsreihenfolge)
+// Tastenanschlag verarbeiten
+function handleKeyPress(e) {
+    if (e.key === "Enter") {
+        if (!answerSubmitted) {
+            submitAnswer(); // Antwort abgeben
+        } else {
+            loadNextDog(); // Nächster Hund
+        }
+    }
+}
+
+// Array mischen
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -44,18 +57,15 @@ function shuffleArray(array) {
     }
 }
 
-// Zufälliges Bild aus der JSON für die aktuelle Rasse auswählen
+// Zufälliges Bild auswählen
 function getRandomImageForBreed(breed) {
     const images = breedImages[breed];
     if (!images || images.length === 0) {
-        console.error(`Keine Bilder für Rasse ${breed} gefunden!`);
+        console.error(`Keine Bilder für ${breed}!`);
         return "";
     }
-    // Zufälliges Bild aus der Liste der tatsächlichen Dateinamen auswählen
     const randomImage = images[Math.floor(Math.random() * images.length)];
-    const imgPath = `Hunde/${breed}/${randomImage}`;
-    console.log("Versuche, Bild zu laden:", imgPath); // Debug
-    return imgPath;
+    return `Hunde/${breed}/${randomImage}`;
 }
 
 // Nächsten Hund laden
@@ -63,17 +73,21 @@ function loadNextDog() {
     if (currentIndex < breeds.length) {
         currentBreed = breeds[currentIndex];
         const imgPath = getRandomImageForBreed(currentBreed);
+        console.log("Bildpfad:", imgPath); // Debug
         document.getElementById("dog-image").src = imgPath;
         document.getElementById("answer").value = "";
         document.getElementById("answer").focus();
         document.getElementById("feedback").textContent = "";
+        answerSubmitted = false;
     } else {
-        showResults(); // Quiz beendet
+        showResults();
     }
 }
 
 // Antwort prüfen
 function submitAnswer() {
+    if (answerSubmitted) return; // Verhindere mehrfaches Absenden
+
     const answer = document.getElementById("answer").value;
     if (answer === currentBreed) {
         score++;
@@ -84,30 +98,38 @@ function submitAnswer() {
         document.getElementById("feedback").textContent = `Falsch! Richtig war: ${currentBreed}`;
         document.getElementById("feedback").className = "feedback wrong";
     }
-    currentIndex++;
+    answerSubmitted = true;
     updateProgress();
-    setTimeout(loadNextDog, 1500); // 1.5 Sekunden Pause
+    document.getElementById("feedback").innerHTML += "<br><strong>Drücke die Enter-Taste, um zum nächsten Hund zu kommen.</strong>";
 }
 
-// Fortschritt aktualisieren
+// Fortschritt aktualisieren (mit "richtig"-Hinweis)
 function updateProgress() {
     const progress = (currentIndex / breeds.length) * 100;
     document.getElementById("progress").style.width = `${progress}%`;
-    document.getElementById("score").textContent = `${score}/${currentIndex}`;
+    document.getElementById("score").textContent = `${score}/${currentIndex} richtig`;
 }
 
 // Ergebnisse anzeigen
 function showResults() {
     document.querySelector(".quiz-container").innerHTML = `
         <h2>Quiz beendet!</h2>
-        <p>Dein Score: ${score}/${breeds.length}</p>
+        <p>Dein Score: ${score}/${breeds.length} richtig</p>
         <h3>Falsch beantwortet:</h3>
         <ul>${wrongAnswers.map(breed => `<li>${breed}</li>`).join("")}</ul>
-        <button onclick="window.location.reload()">Neu starten</button>
+        <button onclick="window.location.reload()" autofocus>Neu starten</button>
     `;
 }
 
-// Start: JSON laden und Quiz initialisieren
+// Nächsten Hund manuell laden (wird über Enter-Taste aufgerufen)
+function nextDog() {
+    if (answerSubmitted) {
+        currentIndex++;
+        loadNextDog();
+    }
+}
+
+// Start
 if (window.location.pathname.endsWith("quiz.html")) {
     loadBreedImages();
 }
