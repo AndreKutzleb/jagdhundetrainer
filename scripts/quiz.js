@@ -20,31 +20,39 @@ function checkPassword() {
 
 // Quiz initialisieren
 function initQuiz() {
-    // Alle Unterordner in "Hunde/" laden (z. B. ["DB", "LB", ...])
-    // Hier später mit fetch() oder statischer Liste ersetzen
-    breeds = ["DB", "LB", "JT"]; // Beispiel – ersetze mit deinen Daten!
+    // Beispiel: Liste der Hunderassen (ersetze dies mit deinen tatsächlichen Abkürzungen)
+    breeds = ["DB", "LB", "JT", "WH"]; // Beispiel – ersetze mit deinen Daten!
     shuffleArray(breeds); // Zufällige Reihenfolge
     loadNextDog();
 }
 
 // Array mischen (für Zufallsreihenfolge)
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+    for ( let i = array.length - 1; i > 0; i-- ) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
+// Zufälliges Bild aus dem Ordner Hunde/${breed}/ auswählen
+function getRandomImageForBreed(breed) {
+    // Annahme: Jeder Ordner enthält Bilder mit Namen wie "1.jpg", "2.jpg", etc.
+    // Hier musst du die tatsächlichen Bildnamen anpassen oder eine Liste der Bilder pro Rasse erstellen.
+    // Beispiel: Für "DB" gibt es 3 Bilder: "1.jpg", "2.jpg", "3.jpg"
+    const imageCount = 3; // Ersetze dies mit der tatsächlichen Anzahl der Bilder pro Rasse
+    const randomIndex = Math.floor(Math.random() * imageCount) + 1;
+    return `Hunde/${breed}/${randomIndex}.jpg`;
+}
+
 // Nächsten Hund laden
 function loadNextDog() {
-    if (currentIndex < breeds.length) {
+    if ( currentIndex < breeds.length ) {
         currentBreed = breeds[currentIndex];
-        // Bild aus dem Ordner "Hunde/DB/" zufällig auswählen
-        const imgPath = `Hunde/${currentBreed}/`; // Beispiel: "Hunde/DB/1.jpg"
-        // Hier: Logik zum Laden eines zufälligen Bildes aus dem Ordner
-        document.getElementById("dog-image").src = imgPath + "1.jpg"; // Platzhalter
+        const imgPath = getRandomImageForBreed(currentBreed);
+        document.getElementById("dog-image").src = imgPath;
         document.getElementById("answer").value = "";
         document.getElementById("answer").focus();
+        document.getElementById("feedback").textContent = "";
     } else {
         showResults(); // Quiz beendet
     }
@@ -53,7 +61,7 @@ function loadNextDog() {
 // Antwort prüfen
 function submitAnswer() {
     const answer = document.getElementById("answer").value;
-    if (answer === currentBreed) {
+    if ( answer === currentBreed ) {
         score++;
         document.getElementById("feedback").textContent = "Richtig!";
         document.getElementById("feedback").className = "feedback correct";
@@ -86,6 +94,6 @@ function showResults() {
 }
 
 // Start
-if (window.location.pathname.endsWith("quiz.html")) {
+if ( window.location.pathname.endsWith("quiz.html") ) {
     initQuiz();
 }
