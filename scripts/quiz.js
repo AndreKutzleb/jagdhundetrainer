@@ -3,6 +3,7 @@ const PASSWORD = "HundeQuiz2026";
 
 // Globale Variablen
 let breeds = [];         // Liste aller Hunderassen (Abkürzungen)
+let breedImages = {};    // Wird aus der JSON geladen
 let currentBreed = "";   // Aktuelle Rasse im Quiz
 let score = 0;           // Punktestand
 let wrongAnswers = [];   // Liste der falsch beantworteten Rassen
@@ -18,37 +19,44 @@ function checkPassword() {
     }
 }
 
-// Quiz initialisieren
-function initQuiz() {
-    // Beispiel: Liste der Hunderassen (ersetze dies mit deinen tatsächlichen Abkürzungen)
-    breeds = ["DB", "LB", "JT", "WH"]; // Beispiel – ersetze mit deinen Daten!
-    shuffleArray(breeds); // Zufällige Reihenfolge
-    loadNextDog();
+// JSON-Datei laden und Quiz initialisieren
+function loadBreedImages() {
+    fetch('breed_images.json')
+        .then(response => response.json())
+        .then(data => {
+            breedImages = data;
+            breeds = Object.keys(breedImages); // Alle Rassen aus der JSON extrahieren
+            shuffleArray(breeds); // Zufällige Reihenfolge
+            loadNextDog(); // Erster Hund laden
+        })
+        .catch(error => console.error('Fehler beim Laden der JSON:', error));
 }
 
 // Array mischen (für Zufallsreihenfolge)
 function shuffleArray(array) {
-    for ( let i = array.length - 1; i > 0; i-- ) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
-// Zufälliges Bild aus dem Ordner Hunde/${breed}/ auswählen
+// Zufälliges Bild für die aktuelle Rasse auswählen
 function getRandomImageForBreed(breed) {
-    // Annahme: Jeder Ordner enthält Bilder mit Namen wie "1.jpg", "2.jpg", etc.
-    // Hier musst du die tatsächlichen Bildnamen anpassen oder eine Liste der Bilder pro Rasse erstellen.
-    // Beispiel: Für "DB" gibt es 3 Bilder: "1.jpg", "2.jpg", "3.jpg"
-    const imageCount = 3; // Ersetze dies mit der tatsächlichen Anzahl der Bilder pro Rasse
-    const randomIndex = Math.floor(Math.random() * imageCount) + 1;
-    return `Hunde/${breed}/${randomIndex}.jpg`;
+    const images = breedImages[breed];
+    if (!images || images.length === 0) {
+        console.error(`Keine Bilder für Rasse ${breed} gefunden!`);
+        return "";
+    }
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    return `Hunde/${breed}/${randomImage}`;
 }
 
 // Nächsten Hund laden
 function loadNextDog() {
-    if ( currentIndex < breeds.length ) {
+    if (currentIndex < breeds.length) {
         currentBreed = breeds[currentIndex];
         const imgPath = getRandomImageForBreed(currentBreed);
+        console.log("Versuche, Bild zu laden:", imgPath); // Debug-Ausgabe
         document.getElementById("dog-image").src = imgPath;
         document.getElementById("answer").value = "";
         document.getElementById("answer").focus();
@@ -61,7 +69,7 @@ function loadNextDog() {
 // Antwort prüfen
 function submitAnswer() {
     const answer = document.getElementById("answer").value;
-    if ( answer === currentBreed ) {
+    if (answer === currentBreed) {
         score++;
         document.getElementById("feedback").textContent = "Richtig!";
         document.getElementById("feedback").className = "feedback correct";
@@ -72,7 +80,7 @@ function submitAnswer() {
     }
     currentIndex++;
     updateProgress();
-    setTimeout(loadNextDog, 1500); // 1.5 Sek. Pause
+    setTimeout(loadNextDog, 1500); // 1.5 Sekunden Pause
 }
 
 // Fortschritt aktualisieren
@@ -93,7 +101,7 @@ function showResults() {
     `;
 }
 
-// Start
-if ( window.location.pathname.endsWith("quiz.html") ) {
-    initQuiz();
+// Start: JSON laden und Quiz initialisieren
+if (window.location.pathname.endsWith("quiz.html")) {
+    loadBreedImages();
 }
