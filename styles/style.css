@@ -5,6 +5,9 @@
     --light-green: #aad27c;
     --beige: #f5f5dc;
     --dark-brown: #555;
+    --correct-green: #dff0d8;
+    --wrong-red: #f2dede;
+    --pending-gray: #ddd;
 }
 
 /* Hauptcontainer mit flexibler Anordnung */
@@ -77,32 +80,45 @@ body.forest-theme {
     margin: 0 auto;
 }
 
-/* Fortschrittsbalken */
+/* Segmentierte Fortschrittsanzeige */
 .progress-container {
-    width: 80%;
-    max-width: 300px;
-    background-color: var(--dark-brown);
-    border-radius: 5px;
-    margin: 10px auto;
+    width: 90%;
+    max-width: 500px;
+    margin: 15px auto;
+    text-align: center;
+}
+
+#score {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--beige);
+    font-size: 16px;
+}
+
+.progress-segments {
+    display: flex;
     height: 20px;
     border: 1px solid #333;
+    border-radius: 5px;
     overflow: hidden;
 }
 
-.progress-bar {
-    height: 100%;
-    background-color: var(--light-green);
-    width: 0%;
-    transition: width 0.3s ease;
+.progress-segment {
+    flex: 1;
+    transition: background-color 0.3s ease;
 }
 
-/* Score-Anzeige */
-#score {
-    display: block;
-    text-align: center;
-    margin: 5px auto;
-    font-weight: bold;
-    color: var(--beige);
+.progress-segment.correct {
+    background-color: var(--light-green);
+}
+
+.progress-segment.wrong {
+    background-color: var(--wrong-red);
+}
+
+.progress-segment.pending {
+    background-color: var(--pending-gray);
 }
 
 /* Feedback-Bereich */
@@ -119,13 +135,13 @@ body.forest-theme {
 }
 
 .feedback.correct {
-    background-color: #dff0d8;
+    background-color: var(--correct-green);
     color: #3c763d;
     border: 1px solid #d6e9c6;
 }
 
 .feedback.wrong {
-    background-color: #f2dede;
+    background-color: var(--wrong-red);
     color: #a94442;
     border: 1px solid #ebccd1;
 }
@@ -150,6 +166,37 @@ body.forest-theme {
     text-align: center;
 }
 
+/* Mobile Handlungsaufforderung */
+#mobile-hint {
+    display: none;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* Button für mobile Geräte (optional) */
+.send-button {
+    display: none;
+    margin: 10px auto;
+    padding: 8px 16px;
+    background-color: var(--forest-brown);
+    color: var(--beige);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .send-button {
+        display: block;
+    }
+
+    #mobile-hint {
+        display: block;
+    }
+}
+
 /* Ergebnisse-Seite */
 .quiz-container ul {
     list-style: none;
@@ -168,19 +215,4 @@ body.forest-theme {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-/* Responsive Anpassungen */
-@media (max-width: 600px) {
-    .image-container {
-        margin: 5px 0;
-    }
-
-    #answer {
-        width: 90%;
-    }
-
-    .progress-container {
-        width: 90%;
-    }
 }

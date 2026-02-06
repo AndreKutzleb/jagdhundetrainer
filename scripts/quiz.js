@@ -107,12 +107,35 @@ function submitAnswer() {
 }
 
 
-// Fortschritt aktualisieren
+// Fortschrittsbalken aktualisieren (mit farbiger Segmentierung)
 function updateProgress() {
-    const progress = breeds.length > 0 ? (currentIndex / breeds.length) * 100 : 0;
-    document.getElementById("progress").style.width = `${progress}%`;
-    document.getElementById("score").textContent = `${score}/${breeds.length} richtig`;
+    const total = breeds.length;
+    const correct = score;
+    const wrong = currentIndex - score;
+
+    // Text in der Mitte des Fortschrittsbalkens
+    document.getElementById("score").textContent = `${currentIndex}/${total}, ${correct} richtig`;
+
+    // Fortschrittsbalken als segmentierte Leiste darstellen
+    const progressContainer = document.querySelector(".progress-segments");
+    progressContainer.innerHTML = ''; // Alte Segmente löschen
+
+    for (let i = 0; i < total; i++) {
+        const segment = document.createElement("div");
+        segment.className = "progress-segment";
+
+        if (i < currentIndex) {
+            // Segment bereits beantwortet
+            segment.classList.add(i < correct ? "correct" : "wrong");
+        } else {
+            // Segment noch nicht beantwortet
+            segment.classList.add("pending");
+        }
+
+        progressContainer.appendChild(segment);
+    }
 }
+
 
 // Ergebnisse anzeigen
 function showResults() {
