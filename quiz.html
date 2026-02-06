@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Hunde-Quiz</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
+
 <body class="forest-theme">
     <div class="quiz-container">
         <div class="progress-container">
@@ -15,11 +17,12 @@
         <div class="image-container">
             <img id="dog-image" src="" alt="Hundebild" class="responsive-image">
         </div>
-        <div class="input-container">
-            <input type="text" id="answer" autofocus placeholder="Abkürzung eingeben (z.B. DB für Deutsche Bracke)">
-        </div>
+        <input type="text" id="answer" autofocus placeholder="Abkürzung eingeben (z. B. DB) und Enter drücken"
+            enterkeyhint="send" <!-- Zeigt "Senden" -Button auf mobilen Tastaturen (iOS/Android) -->
+        >
         <div class="feedback" id="feedback"></div>
     </div>
     <script src="scripts/quiz.js"></script>
 </body>
+
 </html>

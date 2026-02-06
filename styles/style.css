@@ -4,124 +4,183 @@
     --forest-brown: #8b4513;
     --light-green: #aad27c;
     --beige: #f5f5dc;
+    --dark-brown: #555;
 }
 
+/* Hauptcontainer mit flexibler Anordnung */
 body.forest-theme {
     background-color: var(--forest-green);
     color: var(--beige);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .quiz-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
     max-width: 100%;
-    text-align: center;
-    padding: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.responsive-image {
+/* Passwort-Seite */
+.password-container {
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    background-color: rgba(42, 92, 42, 0.8);
+    border-radius: 10px;
+    border: 2px solid var(--forest-brown);
+}
+
+.password-container h1 {
+    color: var(--beige);
+}
+
+.password-container input {
+    padding: 8px;
+    margin: 10px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.password-container button {
+    padding: 8px 16px;
+    background-color: var(--forest-brown);
+    color: var(--beige);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Bildcontainer mit Scrollbereich */
+.image-container {
+    flex: 1;
+    overflow-y: auto;
+    margin: 10px 0;
+    border: 2px solid var(--forest-brown);
+    border-radius: 5px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#dog-image {
     max-width: 100%;
     height: auto;
-    border: 3px solid var(--forest-brown);
-    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Fortschrittsbalken */
 .progress-container {
-    width: 100%;
-    background-color: var(--forest-brown);
-    margin-bottom: 20px;
-}
-
-.progress-bar {
-    height: 20px;
-    background-color: var(--light-green);
-    width: 0%;
-    transition: width 0.3s;
-}
-
-/* Feedback */
-.feedback {
-    padding: 10px;
-    margin: 10px 0;
+    width: 80%;
+    max-width: 300px;
+    background-color: var(--dark-brown);
     border-radius: 5px;
-}
-
-.feedback.correct {
-    background-color: var(--light-green);
-}
-
-.feedback.wrong {
-    background-color: #ff6b6b;
-}
-
-/* Fortschrittsbalken (abgegrenzt und elegant) */
-.progress-container {
-    width: 100%;
-    background-color: #555; /* Dunkler Hintergrund für bessere Abgrenzung */
-    border-radius: 5px;
-    margin: 15px 0;
+    margin: 10px auto;
     height: 20px;
+    border: 1px solid #333;
     overflow: hidden;
-    border: 1px solid #333; /* Rahmen für klare Abgrenzung */
 }
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50; /* Grün für Fortschritt */
+    background-color: var(--light-green);
     width: 0%;
     transition: width 0.3s ease;
 }
 
-/* Feedback-Box (Hintergrundfarbe für "Richtig/Falsch") */
+/* Score-Anzeige */
+#score {
+    display: block;
+    text-align: center;
+    margin: 5px auto;
+    font-weight: bold;
+    color: var(--beige);
+}
+
+/* Feedback-Bereich */
 .feedback {
+    flex-shrink: 0;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px auto;
     border-radius: 5px;
     text-align: center;
+    width: 80%;
+    max-width: 300px;
     font-weight: bold;
-    min-height: 20px; /* Mindesthöhe für Konsistenz */
+    min-height: 40px;
 }
 
 .feedback.correct {
-    background-color: #dff0d8; /* Hellgrün */
+    background-color: #dff0d8;
     color: #3c763d;
     border: 1px solid #d6e9c6;
 }
 
 .feedback.wrong {
-    background-color: #f2dede; /* Hellrot */
+    background-color: #f2dede;
     color: #a94442;
     border: 1px solid #ebccd1;
 }
 
-/* Breiteres Eingabefeld */
+/* Eingabebereich (fixiert am unteren Rand) */
+.input-container {
+    flex-shrink: 0;
+    padding: 15px;
+    background-color: rgba(245, 245, 220, 0.9);
+    text-align: center;
+    margin-top: auto;
+    border-top: 1px solid var(--forest-brown);
+}
+
 #answer {
-    width: 80%; /* Breite anpassen */
-    max-width: 300px; /* Maximale Breite begrenzen */
-    padding: 10px;
+    width: 80%;
+    max-width: 300px;
+    padding: 12px;
     font-size: 16px;
-    margin: 10px auto; /* Zentrieren */
-    display: block; /* Als Block-Element für bessere Kontrolle */
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-/* Container für Eingabefeld (Zentrierung) */
-.input-container {
     text-align: center;
-    margin: 20px 0;
 }
 
+/* Ergebnisse-Seite */
+.quiz-container ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto;
+}
 
-/* Mobile-Anpassungen */
+.quiz-container button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: var(--forest-brown);
+    color: var(--beige);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive Anpassungen */
 @media (max-width: 600px) {
-    .responsive-image {
-        width: 100%;
+    .image-container {
+        margin: 5px 0;
     }
-    input, button {
-        width: 100%;
-        padding: 10px;
+
+    #answer {
+        width: 90%;
+    }
+
+    .progress-container {
+        width: 90%;
     }
 }
