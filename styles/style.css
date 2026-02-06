@@ -40,6 +40,7 @@ body.forest-theme {
     background-color: rgba(42, 92, 42, 0.8);
     border-radius: 10px;
     border: 2px solid var(--forest-brown);
+    max-width: 400px;
 }
 
 .password-container h1 {
@@ -128,8 +129,8 @@ body.forest-theme {
     margin: 10px auto;
     border-radius: 5px;
     text-align: center;
-    width: 80%;
-    max-width: 300px;
+    width: 90%;
+    max-width: 400px;
     font-weight: bold;
     min-height: 40px;
 }
@@ -146,24 +147,36 @@ body.forest-theme {
     border: 1px solid #ebccd1;
 }
 
-/* Eingabebereich (fixiert am unteren Rand) */
+/* Eingabebereich (fixiert am unteren Rand, zentral und breiter) */
 .input-container {
     flex-shrink: 0;
     padding: 15px;
     background-color: rgba(245, 245, 220, 0.9);
     text-align: center;
     margin-top: auto;
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
     border-top: 1px solid var(--forest-brown);
 }
 
 #answer {
-    width: 80%;
-    max-width: 300px;
-    padding: 12px;
-    font-size: 16px;
+    width: 95%;
+    max-width: 400px;
+    padding: 14px;
+    font-size: 18px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+    box-sizing: border-box;
     text-align: center;
+}
+
+#answer::placeholder {
+    color: #999;
+    font-size: 16px;
 }
 
 /* Mobile Handlungsaufforderung */
@@ -202,7 +215,7 @@ body.forest-theme {
     list-style: none;
     padding: 0;
     text-align: left;
-    max-width: 300px;
+    max-width: 400px;
     margin: 0 auto;
 }
 
