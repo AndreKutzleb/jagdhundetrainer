@@ -56,6 +56,65 @@ body.forest-theme {
     background-color: #ff6b6b;
 }
 
+/* Fortschrittsbalken (abgegrenzt und elegant) */
+.progress-container {
+    width: 100%;
+    background-color: #555; /* Dunkler Hintergrund für bessere Abgrenzung */
+    border-radius: 5px;
+    margin: 15px 0;
+    height: 20px;
+    overflow: hidden;
+    border: 1px solid #333; /* Rahmen für klare Abgrenzung */
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4CAF50; /* Grün für Fortschritt */
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Feedback-Box (Hintergrundfarbe für "Richtig/Falsch") */
+.feedback {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    min-height: 20px; /* Mindesthöhe für Konsistenz */
+}
+
+.feedback.correct {
+    background-color: #dff0d8; /* Hellgrün */
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+}
+
+.feedback.wrong {
+    background-color: #f2dede; /* Hellrot */
+    color: #a94442;
+    border: 1px solid #ebccd1;
+}
+
+/* Breiteres Eingabefeld */
+#answer {
+    width: 80%; /* Breite anpassen */
+    max-width: 300px; /* Maximale Breite begrenzen */
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px auto; /* Zentrieren */
+    display: block; /* Als Block-Element für bessere Kontrolle */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Container für Eingabefeld (Zentrierung) */
+.input-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+
 /* Mobile-Anpassungen */
 @media (max-width: 600px) {
     .responsive-image {

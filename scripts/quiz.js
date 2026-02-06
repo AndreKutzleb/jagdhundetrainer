@@ -70,18 +70,18 @@ function getRandomImageForBreed(breed) {
     return `Hunde/${breed}/${randomImage}`;
 }
 
-// Nächsten Hund laden
+// Nächsten Hund laden (mit Zurücksetzen der Hintergrundfarbe)
 function loadNextDog() {
     if (currentIndex < breeds.length) {
         currentBreed = breeds[currentIndex];
         const imgPath = getRandomImageForBreed(currentBreed);
-        console.log("Bildpfad:", imgPath); // Debug
         document.getElementById("dog-image").src = imgPath;
         document.getElementById("answer").value = "";
         document.getElementById("answer").focus();
         document.getElementById("feedback").textContent = "";
+        document.getElementById("feedback").className = ""; // Hintergrundfarbe zurücksetzen
         answerSubmitted = false;
-        updateProgress(); // Score sofort aktualisieren
+        updateProgress();
     } else {
         showResults();
     }
@@ -89,7 +89,7 @@ function loadNextDog() {
 
 // Antwort prüfen
 function submitAnswer() {
-    if (answerSubmitted) return; // Verhindere mehrfaches Absenden
+    if (answerSubmitted) return;
 
     const answer = document.getElementById("answer").value;
     if (answer === currentBreed) {
@@ -105,6 +105,7 @@ function submitAnswer() {
     updateProgress();
     document.getElementById("feedback").innerHTML += "<br><strong>Drücke die Enter-Taste, um zum nächsten Hund zu kommen.</strong>";
 }
+
 
 // Fortschritt aktualisieren
 function updateProgress() {
