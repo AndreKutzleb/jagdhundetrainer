@@ -8,7 +8,7 @@ let currentBreed = "";
 let score = 0;
 let wrongAnswers = [];
 let currentIndex = 0;
-let answerSubmitted = false; // Flag, um zu prüfen, ob die Antwort bereits abgegeben wurde
+let answerSubmitted = false;
 
 // Passwort prüfen
 function checkPassword() {
@@ -103,7 +103,7 @@ function submitAnswer() {
     document.getElementById("feedback").innerHTML += "<br><strong>Drücke die Enter-Taste, um zum nächsten Hund zu kommen.</strong>";
 }
 
-// Fortschritt aktualisieren (mit "richtig"-Hinweis)
+// Fortschritt aktualisieren
 function updateProgress() {
     const progress = (currentIndex / breeds.length) * 100;
     document.getElementById("progress").style.width = `${progress}%`;
@@ -119,14 +119,6 @@ function showResults() {
         <ul>${wrongAnswers.map(breed => `<li>${breed}</li>`).join("")}</ul>
         <button onclick="window.location.reload()" autofocus>Neu starten</button>
     `;
-}
-
-// Nächsten Hund manuell laden (wird über Enter-Taste aufgerufen)
-function nextDog() {
-    if (answerSubmitted) {
-        currentIndex++;
-        loadNextDog();
-    }
 }
 
 // Start
