@@ -34,6 +34,7 @@ function loadBreedImages() {
             loadNextDog();
             // Enter-Taste aktivieren
             document.getElementById("answer").addEventListener("keypress", handleKeyPress);
+            updateProgress(); // Score sofort aktualisieren
         })
         .catch(error => console.error('Fehler:', error));
 }
@@ -44,6 +45,7 @@ function handleKeyPress(e) {
         if (!answerSubmitted) {
             submitAnswer(); // Antwort abgeben
         } else {
+            currentIndex++; // Nächster Index
             loadNextDog(); // Nächster Hund
         }
     }
@@ -79,6 +81,7 @@ function loadNextDog() {
         document.getElementById("answer").focus();
         document.getElementById("feedback").textContent = "";
         answerSubmitted = false;
+        updateProgress(); // Score sofort aktualisieren
     } else {
         showResults();
     }
@@ -105,9 +108,9 @@ function submitAnswer() {
 
 // Fortschritt aktualisieren
 function updateProgress() {
-    const progress = (currentIndex / breeds.length) * 100;
+    const progress = breeds.length > 0 ? (currentIndex / breeds.length) * 100 : 0;
     document.getElementById("progress").style.width = `${progress}%`;
-    document.getElementById("score").textContent = `${score}/${currentIndex} richtig`;
+    document.getElementById("score").textContent = `${score}/${breeds.length} richtig`;
 }
 
 // Ergebnisse anzeigen
