@@ -6,7 +6,7 @@
     --beige: #f5f5dc;
     --dark-brown: #555;
     --correct-green: #dff0d8;
-    --wrong-red: #f2dede;
+    --wrong-red: #ff6b6b; /* Kräftigeres Rot (ersetzt #f2dede) */
     --pending-gray: #ddd;
 }
 
@@ -63,7 +63,7 @@ body.forest-theme {
     cursor: pointer;
 }
 
-/* Bildcontainer mit Scrollbereich */
+/* Bildcontainer für maximale Bildgröße */
 .image-container {
     flex: 1;
     overflow-y: auto;
@@ -72,13 +72,19 @@ body.forest-theme {
     border-radius: 5px;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; /* Mindesthöhe für große Bilder */
 }
 
 #dog-image {
     max-width: 100%;
+    max-height: 100%; /* Maximale Höhe nutzen */
+    width: auto;
     height: auto;
     display: block;
-    margin: 0 auto;
+    object-fit: contain; /* Bild wird nie beschnitten */
 }
 
 /* Segmentierte Fortschrittsanzeige */
@@ -115,7 +121,7 @@ body.forest-theme {
 }
 
 .progress-segment.wrong {
-    background-color: var(--wrong-red);
+    background-color: var(--wrong-red); /* Jetzt kräftiges Rot */
 }
 
 .progress-segment.pending {
